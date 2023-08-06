@@ -1,3 +1,4 @@
+import Layout from "@/modules/core/infrastructure/components/Layout";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -62,7 +63,7 @@ export default function Home() {
   }, [router.query.post]);
 
   return (
-    <div>
+    <Layout>
       {loading && (
         <section className="max-w-[70ch] mx-auto mt-12">
           <p>loading..</p>
@@ -87,6 +88,6 @@ export default function Home() {
           </form>
         </section>
       )}
-    </div>
+    </Layout>
   );
 }

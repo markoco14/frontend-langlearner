@@ -1,3 +1,4 @@
+import Layout from "@/modules/core/infrastructure/components/Layout";
 import { postAdapter } from "@/modules/posts/infrastructure/adapters/postAdapter";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react"
@@ -26,15 +27,15 @@ export default function Home() {
     getData();
   }, [router.query.post])
   return (
-    <div>
+    <Layout>
       {loading && (
         <p>loading..</p>
       )}
       {!loading && post && (
         <article className="max-w-[70ch] mx-auto">
-					<p>{post.content}</p>
+          <p>{post.content}</p>
         </article>
       )}
-    </div>
+    </Layout>
   )
 }
