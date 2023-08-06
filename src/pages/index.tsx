@@ -1,3 +1,4 @@
+import { postAdapter } from "@/modules/posts/infrastructure/adapters/postAdapter";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
@@ -13,15 +14,9 @@ const PostList = () => {
   useEffect(() => {
     async function getData() {
       setLoading(true);
-      await fetch(`${process.env.NEXT_PUBLIC_API_URL}/posts/`)
-        .then((response) => response.json())
-        .then((data) => {
-          setPosts(data);
-          setLoading(false);
-        })
-        .catch((error) => {
-          console.error("Error:", error);
-        });
+      const posts = await postAdapter.listPosts();
+      setPosts(posts)
+      setLoading(false)
     }
 
     getData();
