@@ -1,3 +1,4 @@
+import { postAdapter } from "@/modules/posts/infrastructure/adapters/postAdapter";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react"
 
@@ -15,17 +16,11 @@ export default function Home() {
   useEffect(() => {
     async function getData() {
       setLoading(true);
-      fetch(`${process.env.NEXT_PUBLIC_API_URL}/posts/${router.query.post}/content/`)
-      .then(response => response.json())
-      .then(data => {
-				console.log(data)
-        setPost(data)
-        setLoading(false)
-      })
-      .catch(error => {
-        setLoading(false)
-        console.error('Error:', error)
-      });
+      if (router.query.post) {
+        const postContent = await postAdapter.getPostContentByPostId({id: Number(router.query.post)});
+        setPost(postContent);
+        setLoading(false);
+      }
     }
 
     getData();
