@@ -1,37 +1,57 @@
-import { useEffect, useState } from "react"
+import Link from "next/link";
+import { useEffect, useState } from "react";
 
-export default function Home() {
-  const [audioUrl, setAudioUrl] = useState<string>('');
+type Post = {
+  id: number;
+  title: string;
+};
+
+const PostList = () => {
+  const [posts, setPosts] = useState<Post[]>();
   const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
     async function getData() {
-      // SIGNED URL
       setLoading(true);
-      fetch(`${process.env.NEXT_PUBLIC_API_URL}/posts/content/get-audio-url/`)
-      .then(response => response.json())
-      .then(data => {
-        setAudioUrl(data.url)
-        setLoading(false)
-      })
-      .catch(error => {
-        setLoading(false)
-        console.error('Error:', error)
-      });
+      fetch(`${process.env.NEXT_PUBLIC_API_URL}/posts/`)
+        .then((response) => response.json())
+        .then((data) => {
+          setPosts(data);
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+        });
     }
 
     getData();
-  }, [])
+  }, []);
+
+  return (
+    <>
+      {loading ? (
+        <p>loading...</p>
+      ) : (
+        <ul>
+          {posts ? (
+            posts.map((post: Post, index: number) => (
+              <li key={index}>
+                <Link href={`/${post.id}`}>{post.title}</Link>
+              </li>
+            ))
+          ) : (
+            <p>no posts</p>
+          )}
+        </ul>
+      )}
+    </>
+  );
+};
+
+export default function Home() {
   return (
     <div>
-      {loading && (
-        <p>loading..</p>
-      )}
-      {!loading && audioUrl && (
-        <audio controls>
-          <source src={audioUrl} type="audio/mpeg"></source>
-        </audio>
-      )}
+      <PostList />
     </div>
-  )
+  );
 }
