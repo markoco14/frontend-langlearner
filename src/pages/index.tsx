@@ -13,7 +13,7 @@ const PostList = () => {
   useEffect(() => {
     async function getData() {
       setLoading(true);
-      fetch(`${process.env.NEXT_PUBLIC_API_URL}/posts/`)
+      await fetch(`${process.env.NEXT_PUBLIC_API_URL}/posts/`)
         .then((response) => response.json())
         .then((data) => {
           setPosts(data);
