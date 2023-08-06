@@ -5,7 +5,6 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-Post
 
 const PostList = () => {
   const [posts, setPosts] = useState<Post[]>();
