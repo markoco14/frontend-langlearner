@@ -36,7 +36,7 @@ const PostList = () => {
           {posts ? (
             posts.map((post: Post, index: number) => (
               <li key={index}>
-                <Link href={`/${post.id}`}>{post.title}</Link>
+                <Link href={`/${post.id}`}>{post.title} <Link href={`/${post.id}/edit`}>Edit</Link></Link>
               </li>
             ))
           ) : (
