@@ -32,17 +32,24 @@ const PostList = () => {
       {loading ? (
         <p>loading...</p>
       ) : (
-        <ul>
-          {posts ? (
-            posts.map((post: Post, index: number) => (
-              <li key={index}>
-                <Link href={`/${post.id}`}>{post.title} <Link href={`/${post.id}/edit`}>Edit</Link></Link>
-              </li>
-            ))
-          ) : (
-            <p>no posts</p>
-          )}
-        </ul>
+        <section className="max-w-[600px] mx-auto">
+          <ul>
+            {posts ? (
+              posts.map((post: Post, index: number) => (
+                <li key={index}>
+                  <Link href={`/${post.id}`} className="flex justify-between">
+                    <span>{post.title}</span>
+                    <Link href={`/${post.id}/edit`}>
+                      Edit
+                    </Link>
+                  </Link>
+                </li>
+              ))
+            ) : (
+              <p>no posts</p>
+            )}
+          </ul>
+        </section>
       )}
     </>
   );
