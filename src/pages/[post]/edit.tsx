@@ -14,7 +14,7 @@ type Inputs = {
   content: string;
 };
 
-export default function Home() {
+export default function EditPostContent() {
   const [postContent, setPostContent] = useState<PostContent>();
   const [loading, setLoading] = useState<boolean>(false);
   const router = useRouter();
@@ -69,7 +69,7 @@ export default function Home() {
           <p>loading..</p>
         </section>
       )}
-      {!loading && postContent && (
+      {!loading && postContent?.id && (
         <section className="max-w-[70ch] mx-auto mt-12">
           <form className="w-full" onSubmit={handleSubmit(onSubmit)}>
             <div className="flex flex-col gap-2 mb-2">
@@ -87,6 +87,9 @@ export default function Home() {
             </button>
           </form>
         </section>
+      )}
+      {!loading && !postContent?.id && (
+        <p>There is nothing to edit. You need to write the post first.</p>
       )}
     </Layout>
   );
