@@ -1,4 +1,5 @@
 import Layout from "@/modules/core/infrastructure/components/Layout";
+import { postContentAdapter } from "@/modules/posts/infrastructure/adapters/postContentAdapter";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -26,18 +27,11 @@ export default function WritePostContent() {
   } = useForm<Inputs>();
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
-    await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/posts/${router.query.post}/content/write/`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ post: Number(router.query.post), content: data.content }),
-      }
-    )
+    await postContentAdapter.writePostContent({postId: Number(router.query.post), content: data.content})
     .then((res) => {
-      toast.success('Post content saved :)')
+      toast.success('Post content saved :)');
+      console.log(res);
+      setPostContent(res)
     });
   };
 
