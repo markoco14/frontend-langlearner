@@ -21,31 +21,24 @@ class PostContentAdapter {
 		return postContent
 	}
 
-	// public async listPosts(): Promise<Post[]> {
-	// 	const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/posts/`);		 
-	// 	const posts: Post[] = await res.json();
+	public async updatePostContent({ postContentId, content }: { postContentId: number, content: string }): Promise<PostContent> {
+		const response = await fetch(
+				`${process.env.NEXT_PUBLIC_API_URL}/posts/content/${postContentId}/update/`,
+				{
+					method: "PUT",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify({
+						content: content
+					}),
+				}
+			);
+		const data = await response.json();
+		const postContent: PostContent = data
 
-	// 	return posts;
-	// }
-
-	// public async createPostTitle({ title }: { title: string }): Promise<Post> {
-	// 	const response = await fetch(
-	// 			`${process.env.NEXT_PUBLIC_API_URL}/posts/write/`,
-	// 			{
-	// 				method: "POST",
-	// 				headers: {
-	// 					"Content-Type": "application/json",
-	// 				},
-	// 				body: JSON.stringify({
-	// 					title: title,
-	// 				}),
-	// 			}
-	// 		);
-	// 	const data = await response.json();
-	// 	const school: Post = data
-
-	// 	return school
-	// }
+		return postContent
+	}
 
 	// public async deletePostTitleById({id}: {id: number}) {
 	// 	const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/posts/${id}/delete/`,{
@@ -61,8 +54,6 @@ class PostContentAdapter {
 
 	// 	return postContent;
 	// }
-
-	
 }
 
 export const postContentAdapter = new PostContentAdapter();
