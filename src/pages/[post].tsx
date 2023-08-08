@@ -1,5 +1,5 @@
 import Layout from "@/modules/core/infrastructure/components/Layout";
-import { postAdapter } from "@/modules/posts/infrastructure/adapters/postAdapter";
+import { postContentAdapter } from "@/modules/posts/infrastructure/adapters/postContentAdapter";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react"
 
@@ -18,7 +18,7 @@ export default function Home() {
     async function getData() {
       setLoading(true);
       if (router.query.post) {
-        const postContent = await postAdapter.getPostContentByPostId({id: Number(router.query.post)});
+        const postContent = await postContentAdapter.getPostContentByPostIdAndLevel({postId: Number(router.query.post)});
         setPost(postContent);
         setLoading(false);
       }
