@@ -30,7 +30,6 @@ export default function WritePostContent() {
     await postContentAdapter.writePostContent({postId: Number(router.query.post), content: data.content})
     .then((res) => {
       toast.success('Post content saved :)');
-      console.log(res);
       setPostContent(res)
     });
   };
@@ -44,7 +43,6 @@ export default function WritePostContent() {
         )
           .then((response) => response.json())
           .then((data) => {
-            console.log(data);
             setPostContent(data);
             setLoading(false);
           })

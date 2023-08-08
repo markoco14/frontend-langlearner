@@ -1,7 +1,9 @@
 import Layout from "@/modules/core/infrastructure/components/Layout";
+import { postContentAdapter } from "@/modules/posts/infrastructure/adapters/postContentAdapter";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 import TextareaAutosize from "react-textarea-autosize";
 
 type PostContent = {
@@ -21,22 +23,17 @@ export default function EditPostContent() {
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm<Inputs>();
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
-    console.log(data);
-    await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/posts/content/${postContent?.id}/update/`,
-      {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ content: data.content }),
-      }
-    );
+    if (postContent) {
+      await postContentAdapter.updatePostContent({postContentId: postContent.id, content: data.content})
+      .then((res) => {
+        toast.success('Post content editted :)');
+        setPostContent(res)
+      });
+    }
   };
 
   useEffect(() => {
@@ -48,7 +45,6 @@ export default function EditPostContent() {
         )
           .then((response) => response.json())
           .then((data) => {
-            console.log(data);
             setPostContent(data);
             setLoading(false);
           })
