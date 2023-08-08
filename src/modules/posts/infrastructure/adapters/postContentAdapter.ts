@@ -2,6 +2,18 @@ import { PostContent } from "../../domain/entities/PostContent";
 
 class PostContentAdapter {
 
+	public async getPostContentByPostIdAndLevel({postId}: {postId: number}): Promise<PostContent> {
+		// LEVEL NUMBER HARDCODED
+		// DEFAULT ASSUMES LEVEL 0 - UNLEVELLED CONTENT
+		// WILL ADD LEVELS LATER AND THEN ADD TO REQUEST
+		console.log('post id in adapter', postId)
+		const level = 0;
+		const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/posts/${postId}/content/level/${level}/`);		 
+		const postContent: PostContent = await res.json();
+
+		return postContent;
+	}
+
 	public async writePostContent({ postId, content }: { postId: number, content: string }): Promise<PostContent> {
 		const response = await fetch(
 				`${process.env.NEXT_PUBLIC_API_URL}/posts/${postId}/content/write/`,
