@@ -5,7 +5,6 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-Post
 
 const PostList = () => {
   const [posts, setPosts] = useState<Post[]>();
@@ -22,6 +21,18 @@ const PostList = () => {
     getData();
   }, []);
 
+  async function handleDelete(id: number) {
+    await postAdapter.deletePostTitleById({id: id})
+    .then((res) => {
+      toast.success('Deleted successfully')
+      setPosts((prevPosts) =>
+          prevPosts?.filter(
+            (post) => post.id !== id
+          )
+        );
+    })
+  }
+
   return (
     <>
       {loading ? (
@@ -34,10 +45,16 @@ const PostList = () => {
             {posts ? (
               posts.map((post: Post, index: number) => (
                 <li key={index}>
-                  <Link href={`/${post.id}`} className="flex justify-between">
-                    <span>{post.title}</span>
-                    <Link href={`/${post.id}/edit`}>Edit</Link>
-                  </Link>
+                  <div className="flex justify-between">
+                    <span className="whitespace-normal">{post.title}</span>
+                    <div className="flex gap-2 items-baseline">
+                      <Link  href={`/${post.id}`}>Read</Link>
+                      <Link  href={`/${post.id}/pinyin`}>Pinyin</Link>
+                      <Link href={`/${post.id}/write`}>Write</Link>
+                      <Link href={`/${post.id}/edit`}>Edit</Link>
+                      <button onClick={() => handleDelete(post.id)}>Delete</button>
+                    </div>
+                  </div>
                 </li>
               ))
             ) : (

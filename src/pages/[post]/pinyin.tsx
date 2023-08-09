@@ -1,16 +1,11 @@
 import Layout from "@/modules/core/infrastructure/components/Layout";
-import { postAdapter } from "@/modules/posts/infrastructure/adapters/postAdapter";
+import { PostContentPinyin } from "@/modules/posts/domain/entities/PostContentPinyin";
+import { postContentPinyinAdapter } from "@/modules/posts/infrastructure/adapters/postContentPinyinAdapter";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react"
 
-type PostContent = {
-  id: number;
-  content: string;
-	post: number;
-}
-
 export default function Home() {
-  const [post, setPost] = useState<PostContent>();
+  const [post, setPost] = useState<PostContentPinyin>();
   const [loading, setLoading] = useState<boolean>(false);
 	const router = useRouter()
 
@@ -18,7 +13,7 @@ export default function Home() {
     async function getData() {
       setLoading(true);
       if (router.query.post) {
-        const postContent = await postAdapter.getPostContentByPostId({id: Number(router.query.post)});
+        const postContent = await postContentPinyinAdapter.getPostContentPinyinByPostIdAndLevel({postId: Number(router.query.post)});
         setPost(postContent);
         setLoading(false);
       }
@@ -33,7 +28,7 @@ export default function Home() {
       )}
       {!loading && post && (
         <article className="max-w-[70ch] mx-auto">
-          <p>{post.content}</p>
+          <p>{post.pinyin_content}</p>
         </article>
       )}
     </Layout>

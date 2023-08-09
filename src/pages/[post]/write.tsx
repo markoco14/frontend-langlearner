@@ -3,7 +3,7 @@ import { postContentAdapter } from "@/modules/posts/infrastructure/adapters/post
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import toast from "react-hot-toast";
+import { toast } from "react-hot-toast";
 import TextareaAutosize from "react-textarea-autosize";
 
 type PostContent = {
@@ -16,7 +16,7 @@ type Inputs = {
   content: string;
 };
 
-export default function EditPostContent() {
+export default function WritePostContent() {
   const [postContent, setPostContent] = useState<PostContent>();
   const [loading, setLoading] = useState<boolean>(false);
   const router = useRouter();
@@ -27,13 +27,11 @@ export default function EditPostContent() {
   } = useForm<Inputs>();
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
-    if (postContent) {
-      await postContentAdapter.updatePostContent({postContentId: postContent.id, content: data.content})
-      .then((res) => {
-        toast.success('Post content editted :)');
-        setPostContent(res)
-      });
-    }
+    await postContentAdapter.writePostContent({postId: Number(router.query.post), content: data.content})
+    .then((res) => {
+      toast.success('Post content saved :)');
+      setPostContent(res)
+    });
   };
 
   useEffect(() => {
@@ -66,6 +64,10 @@ export default function EditPostContent() {
         </section>
       )}
       {!loading && postContent?.id && (
+				<p>You alreay made the post. did you mean to edit it instead?</p>
+        
+      )}
+      {!loading && !postContent?.id && (
         <section className="max-w-[70ch] mx-auto mt-12">
           <form className="w-full" onSubmit={handleSubmit(onSubmit)}>
             <div className="flex flex-col gap-2 mb-2">
@@ -73,19 +75,15 @@ export default function EditPostContent() {
               <TextareaAutosize
                 autoFocus
                 minRows={2}
-                defaultValue={postContent.content}
                 className="rounded-lg p-4 border w-full"
                 {...register("content")}
               />
             </div>
             <button className="underline underline-offset-2 decoration-blue-500 decoration-2">
-              Edit
+              Save
             </button>
           </form>
         </section>
-      )}
-      {!loading && !postContent?.id && (
-        <p>There is nothing to edit. You need to write the post first.</p>
       )}
     </Layout>
   );
