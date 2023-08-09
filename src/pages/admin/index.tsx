@@ -51,7 +51,6 @@ const PostList = () => {
                       <Link  href={`/${post.id}`}>Read</Link>
                       <Link  href={`/${post.id}/pinyin`}>Pinyin</Link>
                       <Link href={`/${post.id}/write`}>Write</Link>
-                      <Link href={`/${post.id}/edit`}>Edit</Link>
                       <button onClick={() => handleDelete(post.id)}>Delete</button>
                     </div>
                   </div>

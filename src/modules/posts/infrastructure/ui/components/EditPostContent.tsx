@@ -16,6 +16,10 @@ export default function EditPostContent({postContent, setPostContent}: {postCont
   } = useForm<Inputs>();
 
 	const onSubmit: SubmitHandler<Inputs> = async (data) => {
+		if (data.content === '') {
+			toast('You cannot set the post content as empty. Please include some content');
+			return
+		}
 		if (postContent) {
 			await postContentAdapter.updatePostContent({postContentId: postContent.id, content: data.content})
 			.then((res) => {
