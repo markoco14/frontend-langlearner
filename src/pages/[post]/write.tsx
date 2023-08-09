@@ -1,5 +1,5 @@
 import Layout from "@/modules/core/infrastructure/components/Layout";
-import { postContentAdapter } from "@/modules/posts/infrastructure/adapters/postContentAdapter";
+import EditPostContent from "@/modules/posts/infrastructure/ui/components/EditPostContent";
 import WritePostContent from "@/modules/posts/infrastructure/ui/components/WritePostContent";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
@@ -10,7 +10,7 @@ type PostContent = {
   post: number;
 };
 
-export default function PostContentPage() {
+export default function WritePostContentPage() {
   const [postContent, setPostContent] = useState<PostContent>();
   const [loading, setLoading] = useState<boolean>(false);
   const router = useRouter();
@@ -45,8 +45,7 @@ export default function PostContentPage() {
         </section>
       )}
       {!loading && postContent?.id && (
-				<p>You alreay made the post. did you mean to edit it instead?</p>
-        
+        <EditPostContent postContent={postContent} setPostContent={setPostContent}/>
       )}
       {!loading && !postContent?.id && (
         <WritePostContent setPostContent={setPostContent}/>
