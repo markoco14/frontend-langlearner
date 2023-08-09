@@ -9,10 +9,13 @@ export default function Layout({ children }: LayoutProps) {
   
   return (
     <>
-      <main>
+      <header>
         <nav className="max-w-[600px] mx-auto">
           <Link href="/">Home</Link>
+          <Link href="/admin">Admin</Link>
         </nav>
+      </header>
+      <main>
 				<div className="max-w-[600px] mx-auto mt-24">
 					{children}
 				</div>
