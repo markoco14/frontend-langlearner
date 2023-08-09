@@ -32,7 +32,7 @@ const PostList = () => {
               posts.map((post: Post, index: number) => (
                 <li key={index}>
                   <div className="flex justify-between">
-                    <Link  href={`/${post.id}`} className="whitespace-normal">{post.title}</Link>
+                    <Link  href={`/read/${post.id}`} className="whitespace-normal">{post.title}</Link>
                   </div>
                 </li>
               ))
