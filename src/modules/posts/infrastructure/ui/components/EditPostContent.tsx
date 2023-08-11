@@ -14,7 +14,6 @@ export default function EditPostContent({postContent, setPostContent}: {postCont
     handleSubmit,
     formState: { errors },
   } = useForm<Inputs>();
-
 	const onSubmit: SubmitHandler<Inputs> = async (data) => {
 		if (data.content === '') {
 			toast('You cannot set the post content as empty. Please include some content');
@@ -24,6 +23,8 @@ export default function EditPostContent({postContent, setPostContent}: {postCont
 			await postContentAdapter.updatePostContent({postContentId: postContent.id, content: data.content})
 			.then((res) => {
 				toast.success('Post content editted :)');
+				const result = res.content.map((subArray: string[]) => subArray.join('')).join('\n\n');
+				res.content = result
 				setPostContent(res)
 			});
 		}
@@ -38,7 +39,7 @@ export default function EditPostContent({postContent, setPostContent}: {postCont
 						autoFocus
 						minRows={2}
 						defaultValue={postContent.content}
-						className="rounded-lg p-4 border w-full"
+						style={{padding: '8px'}}
 						{...register("content")}
 					/>
 				</div>

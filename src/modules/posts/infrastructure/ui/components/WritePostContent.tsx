@@ -20,6 +20,8 @@ export default function WritePostContent({setPostContent}: {setPostContent: Func
     await postContentAdapter.writePostContent({postId: Number(router.query.post), content: data.content})
     .then((res) => {
       toast.success('Post content saved :)');
+			const result = res.content.map((subArray: string[]) => subArray.join('')).join('\n\n');
+			res.content = result
       setPostContent(res)
     });
   };
@@ -32,7 +34,7 @@ export default function WritePostContent({setPostContent}: {setPostContent: Func
 					<TextareaAutosize
 						autoFocus
 						minRows={2}
-						className="rounded-lg p-4 border w-full"
+						style={{padding: '8px'}}
 						{...register("content")}
 					/>
 				</div>
