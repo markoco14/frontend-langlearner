@@ -37,7 +37,7 @@ export default function Home() {
       )}
       {!loading && post && (
         <article className="max-w-[70ch] mx-auto">
-          <h1 className="text-5xl mb-4">{post?.id}</h1>
+          <h1 className="text-5xl mb-4">{post?.title}</h1>
           <div className="flex flex-wrap">
             {post?.content.map((array: string[], arrayIndex: number) => (
               <p key={arrayIndex}>
