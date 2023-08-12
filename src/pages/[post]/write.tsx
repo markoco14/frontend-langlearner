@@ -24,6 +24,8 @@ export default function WritePostContentPage() {
         )
           .then((response) => response.json())
           .then((data) => {
+            const contentString = data.content.map((subArray: string[]) => subArray.join('')).join('\n\n');
+            data.content = contentString
             setPostContent(data);
             setLoading(false);
           })

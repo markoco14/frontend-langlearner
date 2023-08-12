@@ -14,6 +14,36 @@ class PostContentAdapter {
 	}
 
 	public async writePostContent({ postId, content }: { postId: number, content: string }): Promise<PostContent> {
+		const preparedParagraphs: any[] = [];
+		const paragraphs = content.split("\n\n")
+		paragraphs.forEach((paragraph, index) => {
+			if (paragraph.includes("\n")) {
+				const section: any[] = paragraph.split("\n")
+				
+				// OPTION A
+				// we lose the true formatting this way
+				// for example, list items will each become their own paragraph <p>
+				// CODE:
+				// section.forEach(item => {
+				// 	preparedParagraphs.push(item)
+				// })
+				// OPTION B
+				// we can keep list formatting and render <ul> elements
+				// and paragraphs can be <p> elements
+				// CODE:
+				// preparedParagraphs.push(section)
+
+				// CHOOSING OPTION A FOR SIMPLICITY NOW
+				// OPTION A
+				section.forEach(item => {
+					preparedParagraphs.push(item)
+				})
+			}
+			else {
+				preparedParagraphs.push(paragraph);
+			}
+		})
+		
 		const response = await fetch(
 				`${process.env.NEXT_PUBLIC_API_URL}/posts/${postId}/content/write/`,
 				{
@@ -22,7 +52,7 @@ class PostContentAdapter {
 						"Content-Type": "application/json",
 					},
 					body: JSON.stringify({
-						content: content
+						content: preparedParagraphs
 					}),
 				}
 			);
@@ -33,6 +63,39 @@ class PostContentAdapter {
 	}
 
 	public async updatePostContent({ postContentId, content }: { postContentId: number, content: string }): Promise<PostContent> {
+		const preparedParagraphs: any[] = [];
+		const paragraphs = content.split("\n\n")
+		console.log(paragraphs)
+		paragraphs.forEach((paragraph, index) => {
+			if (paragraph.includes("\n")) {
+				console.log(paragraph.split("\n"))
+				const section: any[] = paragraph.split("\n")
+				
+				// OPTION A
+				// we lose the true formatting this way
+				// for example, list items will each become their own paragraph <p>
+				// CODE:
+				// section.forEach(item => {
+				// 	preparedParagraphs.push(item)
+				// })
+				// OPTION B
+				// we can keep list formatting and render <ul> elements
+				// and paragraphs can be <p> elements
+				// CODE:
+				// preparedParagraphs.push(section)
+
+				// CHOOSING OPTION A FOR SIMPLICITY NOW
+				// OPTION A
+				section.forEach(item => {
+					preparedParagraphs.push(item)
+				})
+			}
+			else {
+				preparedParagraphs.push(paragraph);
+			}
+		})
+		console.log(preparedParagraphs)
+
 		const response = await fetch(
 				`${process.env.NEXT_PUBLIC_API_URL}/posts/content/${postContentId}/update/`,
 				{
@@ -41,7 +104,7 @@ class PostContentAdapter {
 						"Content-Type": "application/json",
 					},
 					body: JSON.stringify({
-						content: content
+						content: preparedParagraphs
 					}),
 				}
 			);

@@ -49,7 +49,6 @@ const PostList = () => {
                     <span className="whitespace-normal">{post.title}</span>
                     <div className="flex gap-2 items-baseline">
                       <Link  href={`/${post.id}`}>Read</Link>
-                      <Link  href={`/${post.id}/pinyin`}>Pinyin</Link>
                       <Link href={`/${post.id}/write`}>Write</Link>
                       <button onClick={() => handleDelete(post.id)}>Delete</button>
                     </div>
