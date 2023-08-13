@@ -20,6 +20,7 @@ class PostAdapter {
 					},
 					body: JSON.stringify({
 						title: title,
+						user: 1
 					}),
 				}
 			);
