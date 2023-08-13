@@ -52,7 +52,8 @@ class PostContentAdapter {
 						"Content-Type": "application/json",
 					},
 					body: JSON.stringify({
-						content: preparedParagraphs
+						content: preparedParagraphs,
+						level: 0
 					}),
 				}
 			);
@@ -113,21 +114,7 @@ class PostContentAdapter {
 
 		return postContent
 	}
-
-	// public async deletePostTitleById({id}: {id: number}) {
-	// 	const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/posts/${id}/delete/`,{
-	// 		method: 'DELETE'
-	// 	})
-
-	// 	return response;
-	// }
-
-	// public async getPostContentByPostId({ id }: { id: number }): Promise<PostContent> {
-	// 	const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/posts/${id}/content/`);		
-	// 	const postContent: PostContent = await res.json();
-
-	// 	return postContent;
-	// }
+	
 }
 
 export const postContentAdapter = new PostContentAdapter();
