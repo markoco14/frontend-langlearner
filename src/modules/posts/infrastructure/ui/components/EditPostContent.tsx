@@ -3,6 +3,7 @@ import { postContentAdapter } from "@/modules/posts/infrastructure/adapters/post
 import { SubmitHandler, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import TextareaAutosize from "react-textarea-autosize";
+import { contentAudioAdapter } from "../../adapters/contentAudioAdapter";
 
 type Inputs = {
   content: string;
@@ -32,10 +33,19 @@ export default function EditPostContent({postContent, setPostContent}: {postCont
 		}
 	};
 
+	const handleGetAudio = async ({contentId, contentText}: {contentId: number, contentText: string}) => {
+		await contentAudioAdapter.createAudio({contentId: contentId, contentText: contentText})
+		.then((res) => console.log(res))
+		toast.success(`making audio for post content: ${postContent.id}`)
+		return
+	}
+
 	return (
 		<section className="max-w-[70ch] mx-auto mt-12">
 			<h2>Post Content</h2>
-			<button onClick={() => toast.success(`making audio for post content: ${postContent.id}`)}>Make Audio</button>
+			<button onClick={() => 
+				handleGetAudio({contentId: postContent.id, contentText: postContent.content.toString()})
+				}>Make Audio</button>
 			<form className="w-full" onSubmit={handleSubmit(onSubmit)}>
 				<div className="flex flex-col gap-2 mb-2">
 					<label>Edit</label>
