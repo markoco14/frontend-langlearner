@@ -3,9 +3,9 @@ import { ReadPost, WordPair } from "@/modules/posts/domain/entities/ReadPost";
 import { readPostAdapter } from "@/modules/posts/infrastructure/adapters/readPostAdapter";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 
 export default function Home() {
-  const audioUrl = "https://storage.googleapis.com/twle-445f4.appspot.com/chinese/1691835918171.mp3";
   const [post, setPost] = useState<ReadPost>();
   const [loading, setLoading] = useState<boolean>(false);
   const router = useRouter();
@@ -15,10 +15,11 @@ export default function Home() {
     async function getData() {
       setLoading(true);
       if (router.query.post) {
-        const postContent = await readPostAdapter.getPostContentAndPinyin({
+        await readPostAdapter.getCompletePost({
           postId: Number(router.query.post),
+        }).then((res) => {
+          setPost(res);
         });
-        setPost(postContent);
         setLoading(false);
       }
     }
@@ -30,10 +31,10 @@ export default function Home() {
     navigator.clipboard
       .writeText(text)
       .then(function () {
-        console.log("Text successfully copied to clipboard!");
+        toast.success("Text successfully copied to clipboard!");
       })
       .catch(function (err) {
-        console.error("Unable to copy text to clipboard: ", err);
+        toast.error("Unable to copy text to clipboard: ", err);
       });
   }
   return (
@@ -53,7 +54,7 @@ export default function Home() {
                 }}>
                   {showPinyin ? 'Hide Pinyin' : 'Show Pinyin'}
                 </button>
-              <audio src={audioUrl} controls></audio>
+              <audio src={post.audio_url} controls></audio>
             </div>
           </section>
           <section className="col-span-5 col-end-6 row-start-1">
