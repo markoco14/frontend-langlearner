@@ -1,5 +1,6 @@
 import Layout from "@/modules/core/infrastructure/components/Layout";
 import { PostContent } from "@/modules/posts/domain/entities/PostContent";
+import { postContentAdapter } from "@/modules/posts/infrastructure/adapters/postContentAdapter";
 import EditPostContent from "@/modules/posts/infrastructure/ui/components/EditPostContent";
 import WritePostContent from "@/modules/posts/infrastructure/ui/components/WritePostContent";
 import { useRouter } from "next/router";
@@ -15,20 +16,20 @@ export default function WritePostContentPage() {
     async function getData() {
       setLoading(true);
       if (router.query.post) {
-        await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/posts/${router.query.post}/content/`
-        )
-          .then((response) => response.json())
-          .then((data) => {
-            const contentString = data.content.map((subArray: string[]) => subArray.join('')).join('\n\n');
-            data.content = contentString
-            setPostContent(data);
-            setLoading(false);
-          })
-          .catch((error) => {
-            setLoading(false);
-            console.error("Error:", error);
-          });
+        await postContentAdapter.getPostContentByPostIdAndLevel({postId: Number(router.query.post)})
+        .then((res) => {
+          // @ts-ignore
+          if (res === 'content does not exist') {
+            setLoading(false)
+            return
+          }
+          if (typeof res.content !== 'string') {
+            const contentString = res.content?.map((subArray: string[]) => subArray.join('')).join('\n\n');
+            res.content = contentString
+          }
+          setPostContent(res)
+          setLoading(false)
+        })
       }
     }
 

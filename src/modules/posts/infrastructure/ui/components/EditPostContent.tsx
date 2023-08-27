@@ -33,10 +33,15 @@ export default function EditPostContent({postContent, setPostContent}: {postCont
 		}
 	};
 
-	const handleGetAudio = async ({contentId, contentText}: {contentId: number, contentText: string}) => {
+	const handleCreateAudio = async ({contentId, contentText}: {contentId: number, contentText: string}) => {
 		await contentAudioAdapter.createAudio({contentId: contentId, contentText: contentText})
-		.then((res) => console.log(res))
-		toast.success(`making audio for post content: ${postContent.id}`)
+		.then((res) => {
+			if (res.detail) {
+				toast.error(res.detail)
+				return
+			}
+			toast.success(`making audio for post content: ${postContent.id}`)
+		})
 		return
 	}
 
@@ -44,7 +49,7 @@ export default function EditPostContent({postContent, setPostContent}: {postCont
 		<section className="max-w-[70ch] mx-auto mt-12">
 			<h2>Post Content</h2>
 			<button onClick={() => 
-				handleGetAudio({contentId: postContent.id, contentText: postContent.content.toString()})
+				handleCreateAudio({contentId: postContent.id, contentText: postContent.content.toString()})
 				}>Make Audio</button>
 			<form className="w-full" onSubmit={handleSubmit(onSubmit)}>
 				<div className="flex flex-col gap-2 mb-2">
