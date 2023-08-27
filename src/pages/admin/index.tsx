@@ -48,7 +48,7 @@ const PostList = () => {
                   <div className="flex justify-between">
                     <span className="whitespace-normal">{post.title}</span>
                     <div className="flex gap-2 items-baseline">
-                      <Link  href={`admin/${post.id}`}>Read</Link>
+                      <Link  href={`admin/${post.id}`}>Review</Link>
                       <Link href={`admin/${post.id}/write`}>Write</Link>
                       <button onClick={() => handleDelete(post.id)}>Delete</button>
                     </div>
