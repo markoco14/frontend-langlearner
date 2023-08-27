@@ -23,18 +23,22 @@ export default function EditPostContent({postContent, setPostContent}: {postCont
 			await postContentAdapter.updatePostContent({postContentId: postContent.id, content: data.content})
 			.then((res) => {
 				toast.success('Post content editted :)');
-				const result = res.content.map((subArray: string[]) => subArray.join('')).join('\n\n');
-				res.content = result
-				setPostContent(res)
+				if (typeof res.content !== 'string') {
+					const result = res.content.map((subArray: string[]) => subArray.join('')).join('\n\n');
+					res.content = result
+					setPostContent(res)
+				}
 			});
 		}
 	};
 
 	return (
 		<section className="max-w-[70ch] mx-auto mt-12">
+			<h2>Post Content</h2>
+			<button onClick={() => toast.success(`making audio for post content: ${postContent.id}`)}>Make Audio</button>
 			<form className="w-full" onSubmit={handleSubmit(onSubmit)}>
 				<div className="flex flex-col gap-2 mb-2">
-					<label>Edit Post Content</label>
+					<label>Edit</label>
 					<TextareaAutosize
 						autoFocus
 						minRows={2}
