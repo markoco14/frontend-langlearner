@@ -1,7 +1,7 @@
 import { ReadPost } from "../../domain/entities/ReadPost";
 
 class ReadPostAdapter {
-  public async getPostContentAndPinyin({
+  public async getCompletePost({
     postId,
   }: {
     postId: number;

@@ -10,5 +10,6 @@ export class ReadPost {
     public id: number,
     public content: WordPair[][],
     public title: string,
+    public audio_url: string,
   ) {}
 }
