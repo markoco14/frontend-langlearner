@@ -27,8 +27,8 @@ export default function EditPostContent({postContent, setPostContent}: {postCont
 				if (typeof res.content !== 'string') {
 					const result = res.content.map((subArray: string[]) => subArray.join('')).join('\n\n');
 					res.content = result
-					setPostContent(res)
 				}
+				setPostContent(res)
 			});
 		}
 	};
@@ -52,7 +52,7 @@ export default function EditPostContent({postContent, setPostContent}: {postCont
 					<TextareaAutosize
 						autoFocus
 						minRows={2}
-						defaultValue={postContent.content}
+						defaultValue={postContent.content.toString()}
 						style={{padding: '8px'}}
 						{...register("content")}
 					/>

@@ -17,12 +17,19 @@ export default function WritePostContent({setPostContent}: {setPostContent: Func
   } = useForm<Inputs>();
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
-    await postContentAdapter.writePostContent({postId: Number(router.query.post), content: data.content})
+    if (data.content === '') {
+			toast('You cannot set the post content as empty. Please include some content');
+			return
+		}
+		
+		await postContentAdapter.writePostContent({postId: Number(router.query.post), content: data.content})
     .then((res) => {
       toast.success('Post content saved :)');
-			const result = res.content.map((subArray: string[]) => subArray.join('')).join('\n\n');
-			res.content = result
-      setPostContent(res)
+			if (typeof res.content !== "string") {
+				const result = res.content.map((subArray: string[]) => subArray.join('')).join('\n\n');
+				res.content = result
+			}
+			setPostContent(res)
     });
   };
 
