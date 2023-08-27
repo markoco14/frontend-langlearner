@@ -1,13 +1,8 @@
 import Layout from "@/modules/core/infrastructure/components/Layout";
+import { PostContent } from "@/modules/posts/domain/entities/PostContent";
 import { postContentAdapter } from "@/modules/posts/infrastructure/adapters/postContentAdapter";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react"
-
-type PostContent = {
-  id: number;
-  content: string;
-	post: number;
-}
 
 export default function Home() {
   const [post, setPost] = useState<PostContent>();
@@ -18,8 +13,10 @@ export default function Home() {
     async function getData() {
       setLoading(true);
       if (router.query.post) {
-        const postContent = await postContentAdapter.getPostContentByPostIdAndLevel({postId: Number(router.query.post)});
-        setPost(postContent);
+        await postContentAdapter.getPostContentByPostIdAndLevel({postId: Number(router.query.post)})
+        .then((res) => {
+          setPost(res);
+        });
         setLoading(false);
       }
     }

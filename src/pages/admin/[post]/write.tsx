@@ -1,14 +1,10 @@
 import Layout from "@/modules/core/infrastructure/components/Layout";
+import { PostContent } from "@/modules/posts/domain/entities/PostContent";
 import EditPostContent from "@/modules/posts/infrastructure/ui/components/EditPostContent";
 import WritePostContent from "@/modules/posts/infrastructure/ui/components/WritePostContent";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
-type PostContent = {
-  id: number;
-  content: string;
-  post: number;
-};
 
 export default function WritePostContentPage() {
   const [postContent, setPostContent] = useState<PostContent>();
